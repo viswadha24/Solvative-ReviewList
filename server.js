@@ -45,6 +45,16 @@ app.post('/reviews-api/add', expressAsyncHandler(async (req, res, next) => {
 }))
 
 
+app.get("/reviews-api/get-all-review",expressAsyncHandler(async (req,res)=>{
+
+   let reviewsCollectionObject = req.app.get("reviewsCollectionObj")
+
+    let reviews= await reviewsCollectionObject.find().toArray()
+    res.send({message:"got all data",products:reviews})
+
+}))
+
+
 
 const reviewsApi=require("./APIs/reviewsApi")
 

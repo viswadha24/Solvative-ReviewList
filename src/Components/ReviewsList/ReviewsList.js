@@ -1,7 +1,10 @@
 import './ReviewsList.css';
+import axios from 'axios';
+import React, { useState,useEffect } from 'react';
 //import Link from 'react-router-dom';
 //import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { sort } from 'semver';
 //import { Button } from "@mui/material";
 
 const data = [
@@ -11,7 +14,61 @@ const data = [
 ]
  
 function ReviewsList() {
-   const navigate = useNavigate();
+
+
+     let [data, setArts] = useState([])
+
+    useEffect(()=>{
+      getArts();
+      console.log("gets first time")
+     },[])
+
+     const getArts=()=>{
+        
+      console.log("getArts in home is executed  ....")
+
+      axios
+      .get("http://localhost:3004/reviews-api/get-all-review")
+      .then((response) => {
+       // alert(response.data.message+"🎇🎃🎃🎃");
+        //if user created
+        if (response.data.message === "userarts empty") {
+          //navigate to login
+          
+           alert(response.data.message+"🎃🎃🎃");  
+        }
+        else
+        {
+            let sortedReviews = response.data.products;
+            let reversedReviews = [];
+
+for(let i = sortedReviews.length - 1; i >= 0; i--) {
+  const valueAtIndex = sortedReviews[i]
+  
+  reversedReviews.push(valueAtIndex)
+}
+
+            setArts(reversedReviews)
+          console.log("ARTS PRODUCTS == ",reversedReviews)
+          alert(response.data.message+"🎇🎇🎇🎇🎇");
+         // navigate("/login");
+        }
+      })
+      .catch((error) => {
+        console.log(error,"*******+++++++++++++");
+        alert("Something went wrong in creating user");
+      });
+
+
+    }
+
+
+
+
+
+    const navigate = useNavigate();
+    
+     
 
 
     return (
@@ -38,9 +95,9 @@ function ReviewsList() {
                     return (
                         <tr key={key}>
                             <td>{key+1}</td>
-                            <td>{val.name}</td>
-                            <td>{val.age}</td>
-                            <td>{val.gender}</td>
+                            <td>{val.title}</td>
+                            <td>{val.content}</td>
+                            <td>{val.date}</td>
                             <td>
                              
                             </td>
