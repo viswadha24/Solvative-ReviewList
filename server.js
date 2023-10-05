@@ -28,33 +28,42 @@ mclient.connect(DBurl)
 
 
 
+app.post('/reviews-api/add', expressAsyncHandler(async (req, res, next) => { 
+
+ let reviewsCollectionObject = req.app.get("reviewsCollectionObj")
+ 
+    console.log("in the reviewsApi")
+    
+    console.log(req.body)
+
+    await reviewsCollectionObject.insertOne(req.body);
+    
+    console.log("done addition of the data to the DBS")
+
+    res.send({message:"new review created!"});
+
+}))
+
+
 
 const reviewsApi=require("./APIs/reviewsApi")
 
 
-app.use("/reviews-api",reviewsApi)
+app.use("/reviews-api", reviewsApi)
 
 //app.use("/getusers",expressAsyncHandler())
 
 
  app.use((req,res,next)=>{
-     res.send({message:"Invalid path @@@@@@@",reason:`this path is    ${req.url}    invalid path`})
+     res.send({message:"Invalid path @@@@@@@333",reason:`this path is    ${req.url}    invalid path`})
   })
  
  
-  
  app.use((error,req,res,next)=>{
     res.send({message:"Error occurred",
  reason:`44${error.message}`})
     
  })
-
- if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-    app.use(express.static('build'));
-    app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/build/index.html'));
-    });
-   }
 
 app.listen(process.env.PORT,()=>console.log(`server listening on post ${process.env.PORT}..`))
 

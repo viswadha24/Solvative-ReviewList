@@ -4,9 +4,9 @@ const reviewsApi = exp.Router()
 
 reviewsApi.use(exp.json());
 
-console.log("::::::::::::::::::::::::")
+console.log("---------------------")
 
-reviewsApi.post('/add-review', expressAsyncHandler(async (req, res, next) => { 
+reviewsApi.post('/add', expressAsyncHandler(async (req, res, next) => { 
 
  let reviewsCollectionObject = req.app.get("reviewsCollectionObj")
  
@@ -21,3 +21,5 @@ reviewsApi.post('/add-review', expressAsyncHandler(async (req, res, next) => {
     res.send({message:"new review created!"});
 
 }))
+
+module.exports=reviewsApi 

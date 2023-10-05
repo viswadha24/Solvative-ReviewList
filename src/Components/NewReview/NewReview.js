@@ -20,7 +20,7 @@ function NewReview() {
            const person = { title: "default-title", content: "default-content", date:new Date() }
         person.title = name;
         person.content = age;
-        person.date = date;
+        person.date = date.getTime;
         console.log(person.title," ",person.content,person.date);
     
         // display alert box with user 
@@ -28,11 +28,12 @@ function NewReview() {
         alert('A form was submitted with Name :"' + name +
           '" ,Age :"' + age + '"');
       
-       axios
-    .post("http://localhost:3004/reviews-api/add-review",person)
+     axios
+    .post("http://localhost:3004/reviews-api/add",person)
     .then((response) => {
-      //alert(response.data.message+"🎇🎃🎃🎃");
+      alert(response.data.message+"🎇🎃🎃🎃");
       //if user created
+      
       if (response.data.message === "new review created!") {
         //navigate to login
       //  navigate("/login");
@@ -41,7 +42,8 @@ function NewReview() {
         //  localStorage.setItem("title",response.data.token)
         //  localStorage.setItem("content",response.data.username)
          //localStorage.setItem("userObj",JSON.stringify(response.data.userObj))
-         navigate("/");
+         console.log("review CREATED")
+        
       }
       else
       {
@@ -54,7 +56,7 @@ function NewReview() {
     });
       
       
-      
+       navigate('/');
       
       
       
